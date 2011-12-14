@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <title>Raphael Sparks demo</title>
+  <script src='raphael-min.js'></script>
+  <script src='../sparks.js'></script>
+  <style type='text/css'>
+  body{
+    font-family: Cambria, Georgia, Times, serif;
+    font-size: 18px;
+  }
+  #out{
+    width: 500px;
+    margin: 50px auto;
+  }
+  #paper{ background-color: #333; width:500px; height:500px; margin-top: 20px; }
+  </style>
+  <script>
+  var init = function(){
+    var el = document.getElementById('paper');
+    var paper = Raphael(el, 500, 500);
+    var sparks = new ParticleGenerator(paper);
+    sparks.updatePosition(250,200);
+    el.onmousedown = function(e){
+      sparks.start();
+    };
+    el.onmousemove = function(e){
+      var x = e.layerX || e.offsetX;
+      var y = e.layerY || e.offsetY;
+      sparks.updatePosition(x, y);
+    };
+    el.onmouseup = function(e){
+      sparks.stop();
+
+    };
+  }
+  </script>
+</head>
+<body onload='init()'>
+  <div id='out'>
+    <h2>Raphael Sparks</h2>
+    Click and hold to create sparks. Move the mouse around.
+    
+    <div id='paper'></div>
+
+  </div>
+
+</body>
+
