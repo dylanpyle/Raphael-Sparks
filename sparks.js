@@ -16,7 +16,8 @@ Array.prototype.remove = function (from, to) {
 var Particle = function (x, y, paper) {
   // Particle color & radius
   this.color = '#ffecd7';
-  this.radius = 1;
+  this.color = 'rgb(' + Math.floor(Math.random()*155+100) + ',' + Math.floor(Math.random()*155+100) + ',' + Math.floor(Math.random()*155+100) + ')'; 
+  this.radius = 1.5;
   // Gravity if desired; added to y-velocity
   this.gravity = 1;
   // Drag factor; value should be between 0 and 1
