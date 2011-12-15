@@ -57,7 +57,7 @@ Particle.prototype = {
  * Particle generator
  * @param canvasEl The Raphael paper to draw particles upon
  */
-var ParticleGenerator = function (paper) {
+var Sparks = function (paper) {
   this.settings = {
     /** Particle color */
     color: '#fff',
@@ -87,7 +87,7 @@ var ParticleGenerator = function (paper) {
   this.generating = false;
 };
 
-ParticleGenerator.prototype = {
+Sparks.prototype = {
   /** Start particle generation (i.e. cut begins) */
   start: function () {
     this.generating = true;
@@ -139,7 +139,7 @@ ParticleGenerator.prototype = {
   },
 
   /** Update Particle spawn position */
-  updatePosition: function (x, y) {
+  move: function (x, y) {
     this.xPos = x;
     this.yPos = y;
   }
