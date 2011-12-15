@@ -12,42 +12,33 @@ Array.prototype.remove = function (from, to) {
   return this.push.apply(this, rest);
 };
 
-/** A particle object */
-var Particle = function (x, y, paper) {
-  // Particle color & radius
-  this.color = '#ffecd7';
-  this.color = 'rgb(' + Math.floor(Math.random()*155+100) + ',' + Math.floor(Math.random()*155+100) + ',' + Math.floor(Math.random()*155+100) + ')'; 
-  this.radius = 1.5;
-  // Gravity if desired; added to y-velocity
-  this.gravity = 1;
-  // Drag factor; value should be between 0 and 1
-  this.drag = 0.9;
-  // Max lifespan (in timer loops) of a particle
-  this.lifespan = 100;
-
+/** A particle */
+var Particle = function (x, y, paper, settings) {
+  this.settings = settings;
   this.x = x;
   this.y = y;
   this.velX = (Math.random() * 10) - 5;
   this.velY = (Math.random() * 10) - 5;
   this.life = 0;
-  this.raphaelEl = paper.circle(this.x, this.y, this.radius);
+  this.raphaelEl = paper.circle(this.x, this.y, this.settings.radius);
   this.raphaelEl.attr({
     'stroke-width': 0,
-    'fill': this.color
+    'fill': this.settings.color
   });
 };
 
 Particle.prototype = {
   update: function () {
     this.life++;
-    /** If we've lived long enough, kill particle */
-    if (this.life > this.lifespan) {
+    /** If we've exceeded lifespan, remove particle */
+    if (this.life > this.settings.lifespan) {
       this.destroy();
       return false;
     } else {
-      this.velX *= this.drag;
-      this.velY *= this.drag;
-      this.velY += this.gravity;
+      /** Update position and push to raphael */
+      this.velX *= this.settings.drag;
+      this.velY *= this.settings.drag;
+      this.velY += this.settings.gravity;
       this.x += this.velX;
       this.y += this.velY;
       this.raphaelEl.attr({
@@ -67,6 +58,18 @@ Particle.prototype = {
  * @param canvasEl The Raphael paper to draw particles upon
  */
 var ParticleGenerator = function (paper) {
+  this.settings = {
+    /** Particle color */
+    color: '#fff',
+    /** Particle radius */
+    radius: 1.5,
+    /** Particle gravity (added to y-velocity) */
+    gravity: 1,
+    /** Drag factor (between 0 and 1) */
+    drag: 0.9,
+    /** Number of loops to exist for */
+    lifespan: 100
+  };
   this.paper = paper;
   this.particles = [];
 
@@ -87,11 +90,9 @@ var ParticleGenerator = function (paper) {
 ParticleGenerator.prototype = {
   /** Start particle generation (i.e. cut begins) */
   start: function () {
-    console.log("Started!");
-    console.log(this);
     this.generating = true;
     if (!this.timer) {
-      this.timer = setInterval(function(){this.loop();}.bind(this), 1000 / 20);
+      this.timer = setInterval(function () { this.loop(); }.bind(this), 1000 / 20);
     }
 
   },
@@ -108,7 +109,7 @@ ParticleGenerator.prototype = {
   createParticles: function (n) {
     var i, p;
     for (i = 0; i < n; i++) {
-      p = new Particle(this.xPos, this.yPos, this.paper);
+      p = new Particle(this.xPos, this.yPos, this.paper, this.settings);
       this.particles.push(p);
     }
   },
@@ -132,7 +133,7 @@ ParticleGenerator.prototype = {
     }
 
     if (this.particles.length === 0) {
-      this.timer = null;
+      clearInterval(this.timer);
     }
 
   },

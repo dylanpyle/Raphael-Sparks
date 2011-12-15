@@ -3,45 +3,61 @@
 <head>
   <title>Raphael Sparks demo</title>
   <script src='raphael-min.js'></script>
+  <script src='jquery.min.js'></script>
   <script src='../sparks.js'></script>
   <style type='text/css'>
-  body{
-    font-family: Cambria, Georgia, Times, serif;
-    font-size: 18px;
-  }
-  #out{
-    width: 500px;
-    margin: 50px auto;
-  }
-  #paper{ background-color: #333; width:500px; height:500px; margin-top: 20px; }
+    body{
+      font-family: Cambria, Georgia, Times, serif;
+      font-size: 18px;
+      color: #222;
+    }
+    #out{ width: 700px; margin: 50px auto; }
+    #tagline{ float: right; text-align: right; margin: 5px 0px; }
+    #paper{ background-color: #333; width:700px; height:300px; margin: 20px 0px; }
+    #settings label{ width: 100px; display: inline-block; }
+    #settings ul{ list-style: none; }
   </style>
   <script>
-  var init = function(){
-    var el = document.getElementById('paper');
-    var paper = Raphael(el, 500, 500);
+  $(function(){
+    var el = $('#paper');
+    var paper = Raphael(el[0], 700, 300);
     var sparks = new ParticleGenerator(paper);
-    sparks.updatePosition(250,200);
-    el.onmousedown = function(e){
+
+    $(el).mousedown(function(){
       sparks.start();
-    };
-    el.onmousemove = function(e){
+    }).mousemove(function(e){
       var x = e.layerX || e.offsetX;
       var y = e.layerY || e.offsetY;
       sparks.updatePosition(x, y);
-    };
-    el.onmouseup = function(e){
+    }).mouseup(function(){
       sparks.stop();
+    });
 
-    };
-  }
+    $('#settings input').change(function(e){
+      sparks.settings[$(this).attr('id')] = $(this).val();
+    });
+
+  });
   </script>
 </head>
-<body onload='init()'>
+<body>
   <div id='out'>
-    <h2>Raphael Sparks</h2>
-    Click and hold to create sparks. Move the mouse around.
+    <div id='tagline'>Click and drag to make fireworks.</div>
+    <h2>sparks.js demo</h2>
     
     <div id='paper'></div>
+
+    <div id='settings'>
+      <h4>Settings:</h4>
+      <ul>
+        <li><label for='color'>Color:</label><input type='color' id='color' value='#ffffff' /></li>
+        <li><label for='radius'>Radius</label><input type='range' id='radius' value='1.5' min='0.1' max='20'/></li>
+        <li><label for='gravity'>Gravity:</label><input type='range' id='gravity' value='1' min='0' max='5' step='0.1'/></li>
+        <li><label for='drag'>Drag:</label><input type='range' id='drag' value='0.9' min='0.5' max='1.1' step='0.01' /></li>
+        <li><label for='lifespan'>Lifespan:</label><input type='range' id='lifespan' value='200' min='50' max='500'/> </li>
+      </ul>
+
+    </div>
 
   </div>
 
