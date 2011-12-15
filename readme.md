@@ -1,9 +1,11 @@
 # raphael-sparks
-An über-simple particle generator for [Raphael.js](http://raphaeljs.com).
+An über-simple particle generator for [Raphael.js](http://raphaeljs.com). 
 Very much a work in progress. Some goals include:
 
 * Becoming a Raphael plugin rather than just a stand-alone script
-* Fixing *all the bugs*. There are many.
+* Fixing *all the bugs*. There are some.
+
+Oh, also, it's really tiny. Currently <2kb compressed.
 
 ## Usage
 ```
