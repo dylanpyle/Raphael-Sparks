@@ -8,7 +8,7 @@ Very much a work in progress. Some goals include:
 Oh, also, it's really tiny. Currently <2kb compressed.
 
 ## Usage
-```
+```javascript
 // Initialize
 var sparks = new Sparks(paper);
 
@@ -33,7 +33,7 @@ Sparks has a few settings, such as:
 
 Configure them as follows:
 
-```
+```javascript
 var sparks = new Sparks(paper);
 sparks.settings.color = '#eee';
 sparks.settings.radius = 3;
