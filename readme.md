@@ -4,6 +4,7 @@ Very much a work in progress. Some goals include:
 
 * Becoming a Raphael plugin rather than just a stand-alone script
 * Fixing *all the bugs*. There are some.
+* Transitioning size/opacity as well as just position.
 
 Oh, also, it's really tiny. Currently <2kb compressed.
 
